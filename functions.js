@@ -1,8 +1,24 @@
 function pageLoad()
 {
+	//$.ajaxSetup({ cache: false });
+	displayHowTo();
+}
+function displayHowTo()
+{
+	document.getElementById('howTo').style.display = "block";
+	lastLevel = document.getElementById('lastLevel');
+	levelNumber = getCookie('maze2DLevel') || 1;
+	lastLevel.innerText = `You last played at level ${levelNumber}`;
+}
+function restartGame()
+{
+	startGame(1);
+}
+function startGame(level)
+{
+	level = level || getCookie('maze2DLevel');
 	window.addEventListener("keydown",function(){playerMovement();});
-	getLevel(getCookie('maze2DLevel'));
-	$.ajaxSetup({ cache: false });
+	getLevel(level);
 	setInterval(function(){dropScore();},1000);
 }
 function playerMovement(e)
@@ -109,6 +125,7 @@ function getLevel(level)
 }
 function unpackLevel(levelData)
 {
+	document.querySelector('#scoreContainer p').innerText = "0";
 	let level = "";
 	for(y=0;y<levelData.length;y++)
 	{
@@ -153,4 +170,8 @@ function getCookie(cname)
 function dropScore()
 {
 	document.querySelector('#scoreContainer p').innerText = parseInt(document.querySelector('#scoreContainer p').innerText) -1;
+}
+function displayCredits()
+{
+	document.getElementById('credits').style.display = 'block';
 }
